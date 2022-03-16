@@ -1,57 +1,68 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace Scripts
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : NetworkBehaviour
     {
-    //Components
-    Rigidbody2D rb;
-    
-    //player
-    [Header("Player Movement:")] 
-    public float walkSpeed = 4f;
-    public float speedLimit = 0.7f;
-    public float inputHorizontal;
-    public float inputVertical;
+        //player
+        [Header("Player Movement:")] public float walkSpeed = 4f;
+
+        public float speedLimit = 0.7f;
+        public float inputHorizontal;
+        public float inputVertical;
+
+        //Components
+        private Rigidbody2D rb;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //gets the rigibody of the gameobject.
-        rb = gameObject.GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //checks the inputs and makes it 1, -1 or 0 depending on the button pressed.
-        //Horizontal and Vertical are two things that depending the settings which button is bind to it.
-        inputHorizontal = Input.GetAxisRaw("Horizontal");
-        inputVertical = Input.GetAxisRaw("Vertical");
-    }
-
-    void FixedUpdate()
-    {
-        //goes to check what value is in these variables and adding the force to move the player
-        if (inputHorizontal != 0 || inputVertical != 0)
+        // Start is called before the first frame update
+        private void Start()
         {
-            if (inputHorizontal != 0 && inputVertical != 0)
+            //gets the rigibody of the gameobject.
+            rb = gameObject.GetComponent<Rigidbody2D>();
+        }
+
+        private void Update()
+        {
+            HandleMovement();
+        }
+
+        // Update is called once per frame
+        /*private void Update()
+        {
+            //checks the inputs and makes it 1, -1 or 0 depending on the button pressed.
+            //Horizontal and Vertical are two things that depending the settings which button is bind to it.
+            inputHorizontal = Input.GetAxisRaw("Horizontal");
+            inputVertical = Input.GetAxisRaw("Vertical");
+        }*/
+
+        private void FixedUpdate()
+        {
+            //goes to check what value is in these variables and adding the force to move the player
+            if (inputHorizontal != 0 || inputVertical != 0)
             {
-                inputHorizontal *= speedLimit;
-                inputVertical *= speedLimit;
+                if (inputHorizontal != 0 && inputVertical != 0)
+                {
+                    inputHorizontal *= speedLimit;
+                    inputVertical *= speedLimit;
+                }
+
+                rb.velocity = new Vector2(inputHorizontal * walkSpeed, inputVertical * walkSpeed);
             }
-            
-            rb.velocity = new Vector2(inputHorizontal * walkSpeed, inputVertical * walkSpeed);
+            else
+            {
+                rb.velocity = new Vector2(0f, 0f);
+            }
         }
-        else
+
+        private void HandleMovement()
         {
-                        rb.velocity = new Vector2(0f, 0f);
+            if (isLocalPlayer)
+            {
+                inputHorizontal = Input.GetAxisRaw("Horizontal");
+                inputVertical = Input.GetAxisRaw("Vertical");
+            }
         }
-        
     }
-}
 }

@@ -55,8 +55,8 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\TeacherCam.cs" />
      <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />
-     <Compile Include="Assets\Scripts\CamBehaviourPlayer.cs" />
      <Compile Include="Assets\Scripts\MovementServerTest.cs" />
+     <Compile Include="Assets\Scripts\CamBehaviourPlayer.cs" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />
      <None Include="Assets\ScriptTemplates\56-Mirror__Network Discovery-NewNetworkDiscovery.cs.txt" />
      <None Include="Assets\Mirror\Version.txt" />

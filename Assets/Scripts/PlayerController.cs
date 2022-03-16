@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using Cinemachine; 
 
 namespace Scripts
 {
@@ -15,28 +16,28 @@ namespace Scripts
         //Components
         private Rigidbody2D rb;
 
+        [SerializeField] private CinemachineVirtualCamera fellowcam;
+
 
         // Start is called before the first frame update
         private void Start()
         {
             //gets the rigibody of the gameobject.
             rb = gameObject.GetComponent<Rigidbody2D>();
+
+            if (isLocalPlayer)
+            {
+                fellowcam = CinemachineVirtualCamera.FindObjectOfType<CinemachineVirtualCamera>();
+                fellowcam.LookAt = this.gameObject.transform;
+                fellowcam.Follow = this.gameObject.transform;
+            }
         }
 
         private void Update()
         {
             HandleMovement();
         }
-
-        // Update is called once per frame
-        /*private void Update()
-        {
-            //checks the inputs and makes it 1, -1 or 0 depending on the button pressed.
-            //Horizontal and Vertical are two things that depending the settings which button is bind to it.
-            inputHorizontal = Input.GetAxisRaw("Horizontal");
-            inputVertical = Input.GetAxisRaw("Vertical");
-        }*/
-
+        
         private void FixedUpdate()
         {
             //goes to check what value is in these variables and adding the force to move the player
@@ -60,6 +61,8 @@ namespace Scripts
         {
             if (isLocalPlayer)
             {
+                //checks the inputs and makes it 1, -1 or 0 depending on the button pressed.
+                //Horizontal and Vertical are two things that depending the settings which button is bind to it.
                 inputHorizontal = Input.GetAxisRaw("Horizontal");
                 inputVertical = Input.GetAxisRaw("Vertical");
             }
